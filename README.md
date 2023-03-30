@@ -22,3 +22,21 @@ pip3 install <packagename>
 ```
 pip3 install -r requirements.txt
 ```
+
+
+## Debugging
+
+- Create postgres container:
+
+```
+docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:15-alpine
+```
+
+## Alembic
+
+
+- Create migrations folder with `alembic` command:
+
+```
+alembic init migrations
+```
