@@ -41,8 +41,21 @@ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgre
 alembic init migrations
 ```
 
-- Add `Articles` table by alembic command:
+
+- Create database in postgres:
+
+```
+create database articles;
+```
+
+
+- Generate script to create table `Articles` by alembic command:
 
 ```
 alembic revision --autogenerate -m "Adding Articles Table"
+```
+- Create table with command: 
+
+```
+alembic upgrade head
 ```
