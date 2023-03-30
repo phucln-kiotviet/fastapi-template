@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from . import service, schemas, models
+from . import service, schemas
 from ..dependency import get_db
 
 
@@ -9,8 +9,7 @@ router = APIRouter()
 
 @router.get("/")
 def get_list_articles(skip: int = 0, limit: int = 5, db: Session = Depends(get_db)):
-    articles = service.get_list_articles(db, skip=skip, limit=limit)
-    return articles
+    return service.get_list_articles(db, skip=skip, limit=limit)
 
 
 @router.get("/{articles_id}", response_model=schemas.Articles)

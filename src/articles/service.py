@@ -9,11 +9,10 @@ def get_articles(db: Session, articles_id: int):
 
 
 def get_list_articles(db: Session, skip: int = 0, limit: int = 100):
-    query = db.query(models.Articles, func.count(
-        models.Articles.id).over().label('total'))
-    query = query.offset(skip).limit(limit).all()
-    # query = db.query(models.Articles).offset(skip).limit(limit).all()
-    return query
+    # query = db.query(models.Articles, func.count(
+    #     models.Articles.id).over().label('total'))
+    # query = query.offset(skip).limit(limit).all()
+    return db.query(models.Articles).offset(skip).limit(limit).all()
 
 
 def create_articles(db: Session, articles: schemas.Articles):
