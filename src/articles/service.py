@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import update
-from fastapi import HTTPException
+from fastapi import HTTPException, status, Response
 from . import models, schemas
 
 
@@ -21,17 +21,29 @@ def create_articles(db: Session, articles: schemas.Articles):
 
 
 def update_articles(db: Session, articles_id: int, updated_fields: schemas.ArticlesUpdate):
-    db.execute(
-        update(models.Articles)
-        .where(models.Articles.id == articles_id)
-        .values(updated_fields.dict(exclude_unset=True))
-    )
-    db.flush()
+    articles_query = db.query(models.Articles).filter(
+        models.Articles.id == articles_id)
+    db_articles = articles_query.first()
+
+    if not db_articles:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="No articles with {articles_id}")
+    update_data = updated_fields.dict(exclude_unset=True)
+    articles_query.filter(models.Articles.id == articles_id).update(
+        update_data, synchronize_session=False)
     db.commit()
-    return updated_fields
+    db.refresh(db_articles)
+    return db_articles
 
 
-def delete_articles(db: Session, articles: schemas.Articles):
-    db.delete(articles)
+def delete_articles(db: Session, articles_id: int):
+    articles_query = db.query(models.Articles).filter(
+        models.Articles.id == articles_id)
+    articles = articles_query.first()
+
+    if not articles:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="No articles with {articles_id}")
+    articles_query.delete(synchronize_session=False)
     db.commit()
-    return "deleted"
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

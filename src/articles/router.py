@@ -27,13 +27,13 @@ def create_articles(
 
 @router.delete("/{articles_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_articles(articles_id: int, db: Session = Depends(get_db)):
-    articles = service.delete_articles(db=db, articles=articles)
+    return service.delete_articles(db=db, articles_id=articles_id)
 
 
 @router.patch("/{articles_id}", response_model=schemas.ArticlesUpdate)
 def update_articles(
     articles_id: int,
     update_fields: schemas.ArticlesUpdate,
-    db: Session = Depends(get_articles)
+    db: Session = Depends(get_db)
 ):
-    return service.update_articles(db=db, articles_id=articles_id, updated_fields=update_fields)
+    return service.update_articles(db, articles_id=articles_id, updated_fields=update_fields)
