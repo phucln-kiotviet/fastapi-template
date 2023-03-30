@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import update
+from sqlalchemy import func
 from fastapi import HTTPException, status, Response
 from . import models, schemas
 
@@ -9,7 +9,11 @@ def get_articles(db: Session, articles_id: int):
 
 
 def get_list_articles(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Articles).offset(skip).limit(limit).all()
+    query = db.query(models.Articles, func.count(
+        models.Articles.id).over().label('total'))
+    query = query.offset(skip).limit(limit).all()
+    # query = db.query(models.Articles).offset(skip).limit(limit).all()
+    return query
 
 
 def create_articles(db: Session, articles: schemas.Articles):
