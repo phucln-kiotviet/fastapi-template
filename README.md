@@ -34,6 +34,13 @@ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgre
 
 ## Alembic
 
+- If we have multiple models we can config `target_metadata` in `/migrations/env.py` like this:
+
+```
+target_metadata = [articles_models.Base.metadata, categories_models.Base.metadata]
+```
+
+
 
 - Create migrations folder with `alembic` command:
 

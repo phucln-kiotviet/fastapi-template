@@ -1,5 +1,5 @@
 import os
-from src.articles.models import Base
+from src.articles import models as articles_models
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -20,7 +20,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = Base.metadata  # allow auto generate migrations
+# allow auto generate migrations
+target_metadata = [articles_models.Base.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
