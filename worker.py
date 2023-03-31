@@ -1,3 +1,4 @@
+import time
 import pika
 import sys
 import os
@@ -13,7 +14,9 @@ def main():
     channel.queue_declare(queue='hello')
 
     def callback(channel, method, properties, body):
-        print("[x] Received %r" % body)
+        print("[x] Received %r" % body.decode())
+        time.sleep(body.count(b'.'))
+        print("[x] Done")
 
     channel.basic_consume(queue='hello',
                           auto_ack=True,
