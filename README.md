@@ -24,12 +24,18 @@ pip3 install -r requirements.txt
 ```
 
 
-## Debugging
+## Database
 
 - Create postgres container:
 
 ```
 docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:15-alpine
+```
+
+- Create database in postgres:
+
+```
+create database articles;
 ```
 
 ## Alembic
@@ -47,14 +53,6 @@ target_metadata = [articles_models.Base.metadata, categories_models.Base.metadat
 ```
 alembic init migrations
 ```
-
-
-- Create database in postgres:
-
-```
-create database articles;
-```
-
 
 - Generate script to create table `Articles` by alembic command:
 
@@ -75,6 +73,6 @@ alembic upgrade head
 bash run.sh
 ```
 
-- Or you can you IDE: vscode (F5).
+- Or you can use IDE: vscode (F5).
 
 - Access localhost: `http://127.0.0.1:8000/docs` to check api documents.

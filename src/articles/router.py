@@ -3,6 +3,7 @@ from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from . import service, schemas
 from ..dependency import get_db
+from uuid import UUID
 
 
 router = APIRouter()
@@ -14,25 +15,25 @@ def get_list_articles(db: Session = Depends(get_db)):
 
 
 @router.get("/{articles_id}", response_model=schemas.Articles)
-def get_articles(articles_id: int, db: Session = Depends(get_db)):
+def get_articles(articles_id: UUID, db: Session = Depends(get_db)):
     return service.get_articles(db=db, articles_id=articles_id)
 
 
 @router.post("/", response_model=schemas.Articles, status_code=status.HTTP_201_CREATED)
 def create_articles(
-    articles: schemas.Articles, db: Session = Depends(get_db)
+    articles: schemas.ArticlesCreate, db: Session = Depends(get_db)
 ):
     return service.create_articles(db=db, articles=articles)
 
 
 @router.delete("/{articles_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_articles(articles_id: int, db: Session = Depends(get_db)):
+def delete_articles(articles_id: UUID, db: Session = Depends(get_db)):
     return service.delete_articles(db=db, articles_id=articles_id)
 
 
 @router.patch("/{articles_id}", response_model=schemas.ArticlesUpdate)
 def update_articles(
-    articles_id: int,
+    articles_id: UUID,
     update_fields: schemas.ArticlesUpdate,
     db: Session = Depends(get_db)
 ):
