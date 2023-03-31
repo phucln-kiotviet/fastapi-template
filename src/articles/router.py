@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, status
+from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from . import service, schemas
 from ..dependency import get_db
@@ -7,9 +8,9 @@ from ..dependency import get_db
 router = APIRouter()
 
 
-@router.get("/")
-def get_list_articles(skip: int = 0, limit: int = 5, db: Session = Depends(get_db)):
-    return service.get_list_articles(db, skip=skip, limit=limit)
+@router.get("/", response_model=Page[schemas.Articles])
+def get_list_articles(db: Session = Depends(get_db)):
+    return paginate(service.get_list_articles(db))
 
 
 @router.get("/{articles_id}", response_model=schemas.Articles)

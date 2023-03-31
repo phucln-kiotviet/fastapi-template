@@ -66,3 +66,15 @@ alembic revision --autogenerate -m "Adding Articles Table"
 ```
 alembic upgrade head
 ```
+
+
+## Run service
+- Use script:
+
+```
+bash run.sh
+```
+
+- Or you can you IDE: vscode (F5).
+
+- Access localhost: `http://127.0.0.1:8000/docs` to check api documents.

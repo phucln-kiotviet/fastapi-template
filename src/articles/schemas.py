@@ -13,7 +13,7 @@ class ArticlesCreate(ArticlesBase):
 
 class Articles(ArticlesBase):
     id: int
-    created_at: datetime
+    created_at: datetime | None
     updated_at: datetime | None
 
     class Config:
