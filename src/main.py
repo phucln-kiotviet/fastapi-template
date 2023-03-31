@@ -11,7 +11,7 @@ if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
-@app.get("/health")
+@app.get("/health", tags=['monitoring'])
 def health_check():
     return {"message": "ok"}
 
