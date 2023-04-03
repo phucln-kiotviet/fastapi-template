@@ -12,8 +12,8 @@ class Articles(Base):
                 index=True, default=uuid.uuid4)
     title = Column(String(255), index=True)
     content = Column(TEXT)
-    created_at = Column(DateTime(), default=datetime.now())
-    updated_at = Column(DateTime(), onupdate=datetime.now())
+    created_at = Column(DateTime(), default=datetime.now)
+    updated_at = Column(DateTime(), onupdate=datetime.now)
     deleted = Column(DateTime())
 
     def __repr__(self):

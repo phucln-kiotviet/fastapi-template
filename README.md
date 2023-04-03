@@ -23,6 +23,11 @@ pip3 install <packagename>
 pip3 install -r requirements.txt
 ```
 
+- To check current activate venv use command:
+
+```
+which python
+```
 
 ## Database
 
@@ -63,6 +68,12 @@ alembic revision --autogenerate -m "Adding Articles Table"
 
 ```
 alembic upgrade head
+```
+
+- To downgrade migrations version:
+
+```
+alembic downgrade -1
 ```
 
 
