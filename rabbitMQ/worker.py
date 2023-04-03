@@ -17,9 +17,10 @@ def main():
         print("[x] Received %r" % body.decode())
         time.sleep(body.count(b'.'))
         print("[x] Done")
+        channel.basic_ack(delivery_tag = method.delivery_tag)
 
     channel.basic_consume(queue='hello',
-                          auto_ack=True,
+                        #   auto_ack=True,
                           on_message_callback=callback)
 
     print('[x] Waiting for message. To exit press CTRL+C: ')
