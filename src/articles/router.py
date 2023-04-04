@@ -19,7 +19,8 @@ def get_articles(articles_id: UUID, db: Session = Depends(get_db)):
     return service.get_articles(db=db, articles_id=articles_id)
 
 
-@router.post("/", response_model=schemas.Articles, status_code=status.HTTP_201_CREATED, tags=['CRUD articles'])
+# @router.post("/", response_model=schemas.Articles, status_code=status.HTTP_201_CREATED, tags=['CRUD articles'])
+@router.post("/", status_code=status.HTTP_201_CREATED, tags=['CRUD articles'])
 def create_articles(
     articles: schemas.ArticlesCreate, db: Session = Depends(get_db)
 ):

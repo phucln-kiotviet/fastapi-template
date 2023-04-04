@@ -1,8 +1,16 @@
+import os
+import json
 from fastapi import HTTPException, status, Response
 from sqlalchemy.orm import Session
 from . import models, schemas
 from datetime import datetime
 from uuid import UUID
+from ..producer import channel
+from dotenv import load_dotenv
+
+
+load_dotenv()
+ANSIBLE_QUEUE = os.getenv('ANSIBLE_QUEUE')
 
 
 def get_articles(db: Session, articles_id: UUID):
@@ -21,11 +29,14 @@ def get_list_articles(db: Session):
 
 
 def create_articles(db: Session, articles: schemas.ArticlesCreate):
-    db_articles = models.Articles(**articles.dict())
-    db.add(db_articles)
-    db.commit()
-    db.refresh(db_articles)
-    return db_articles
+    # db_articles = models.Articles(**articles.dict())
+    # db.add(db_articles)
+    # db.commit()
+    # db.refresh(db_articles)
+    # return db_articles
+    channel.basic_publish(exchange='', routing_key=ANSIBLE_QUEUE,
+                          body=json.dumps({"name": "ansible executor"}))
+    return "Ok"
 
 
 def update_articles(db: Session, articles_id: UUID, updated_fields: schemas.ArticlesUpdate):
